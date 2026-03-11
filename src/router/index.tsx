@@ -7,17 +7,20 @@ import BoardWritePage from '@/pages/BoardWritePage'
 import BoardEditPage from '@/pages/BoardEditPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { index: true, element: <HomePage /> },
-      { path: 'company', element: <CompanyPage /> },
-      { path: 'board/write', element: <BoardWritePage /> },
-      { path: 'board/:no/edit', element: <BoardEditPage /> },
-      { path: 'board/:no', element: <BoardDetailPage /> },
-    ],
-  },
-  { path: '*', element: <NotFoundPage /> },
-])
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [
+        { index: true, element: <HomePage /> },
+        { path: 'company', element: <CompanyPage /> },
+        { path: 'board/write', element: <BoardWritePage /> },
+        { path: 'board/:no/edit', element: <BoardEditPage /> },
+        { path: 'board/:no', element: <BoardDetailPage /> },
+      ],
+    },
+    { path: '*', element: <NotFoundPage /> },
+  ],
+  { basename: import.meta.env.BASE_URL },
+)
