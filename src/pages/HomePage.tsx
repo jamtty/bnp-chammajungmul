@@ -1,28 +1,27 @@
 // src/pages/HomePage.tsx
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getBoards } from '@/api/board'
 import type { Board } from '@/api/board'
 
 export default function HomePage() {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['boards'],
-    queryFn: () => getBoards().then(res => {
-      const raw = res.data
-      if (Array.isArray(raw)) return raw
-      if (typeof raw === 'string') { try { return JSON.parse(raw) } catch { return [] } }
-      if (raw && typeof raw === 'object') {
-        const found = Object.values(raw).find(v => Array.isArray(v))
-        if (found) return found as Board[]
-      }
-      return []
+  const [page, setPage] = useState(1)
+  const [boards, setBoards] = useState<Board[]>([])
+  const [hasMore, setHasMore] = useState(true)
+
+  const { isLoading, isError, error, isFetching } = useQuery({
+    queryKey: ['boards', page],
+    queryFn: () => getBoards(page, 3).then(res => {
+      const result = res.data
+      setBoards(prev => page === 1 ? result.data : [...prev, ...result.data])
+      setHasMore(result.hasMore)
+      return result
     }),
   })
 
-  if (isLoading) return <p className="p-8 text-gray-400">불러오는 중...</p>
+  if (isLoading && page === 1) return <p className="p-8 text-gray-400">불러오는 중...</p>
   if (isError) return <p className="p-8 text-red-500">{String(error)}</p>
-
-  const boards = data ?? []
 
   return (
     <div className="overflow-x-auto">
@@ -69,6 +68,17 @@ export default function HomePage() {
           )}
         </tbody>
       </table>
+      {hasMore && (
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={() => setPage(p => p + 1)}
+            disabled={isFetching}
+            className="px-6 py-2 text-sm bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 disabled:opacity-50"
+          >
+            {isFetching ? '불러오는 중...' : '더보기'}
+          </button>
+        </div>
+      )}
     </div>
   )
 }

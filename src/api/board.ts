@@ -12,8 +12,16 @@ export interface Board {
   comment_count?: number
 }
 
-export const getBoards = () =>
-  axios.get<Board[]>(`${BASE}/board.php`)
+export interface BoardListResponse {
+  data: Board[]
+  total: number
+  page: number
+  limit: number
+  hasMore: boolean
+}
+
+export const getBoards = (page = 1, limit = 10) =>
+  axios.get<BoardListResponse>(`${BASE}/board.php?page=${page}&limit=${limit}`)
 
 export const getBoard = (no: number | string) =>
   axios.get<Board>(`${BASE}/board.php?no=${no}`)

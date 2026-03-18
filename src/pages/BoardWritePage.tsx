@@ -33,7 +33,7 @@ export default function BoardWritePage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto bg-white border border-gray-200 rounded p-8">
+    <div className="bg-white border border-gray-200 rounded p-8">
       <button
         type="button"
         onClick={() => navigate(-1)}

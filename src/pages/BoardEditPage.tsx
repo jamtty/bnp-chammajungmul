@@ -46,7 +46,7 @@ export default function BoardEditPage() {
   if (isLoading) return <p className="p-8 text-gray-400">불러오는 중...</p>
 
   return (
-    <div className="max-w-3xl mx-auto bg-white border border-gray-200 rounded p-8">
+    <div className="bg-white border border-gray-200 rounded p-8">
       <button
         type="button"
         onClick={() => navigate(-1)}

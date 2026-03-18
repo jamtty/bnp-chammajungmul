@@ -66,7 +66,7 @@ export default function BoardDetailPage() {
   if (isError || !board) return <p className="p-8 text-red-500">데이터를 불러올 수 없습니다.</p>
 
   return (
-    <div className="max-w-3xl mx-auto bg-white border border-gray-200 rounded p-8">
+    <div className="bg-white border border-gray-200 rounded p-8">
       <div className="flex justify-between items-center mb-6">
         <button
           onClick={() => navigate(-1)}
