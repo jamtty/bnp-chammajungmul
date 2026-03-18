@@ -6,7 +6,7 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <h1 className="text-xl font-bold text-gray-900">
           <NavLink to="/" className="hover:text-blue-600">
-            나는<span style={{ color: 'blue' }}>개발중</span>
+            나는<span style={{ color: 'blue' }}>개발중 이다.</span>
           </NavLink>
         </h1>
       </nav>
