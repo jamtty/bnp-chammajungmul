@@ -1,10 +1,21 @@
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from '@/layouts/MainLayout'
 import HomePage from '@/pages/HomePage'
-import BoardDetailPage from '@/pages/BoardDetailPage'
-import BoardWritePage from '@/pages/BoardWritePage'
-import BoardEditPage from '@/pages/BoardEditPage'
 import NotFoundPage from '@/pages/NotFoundPage'
+import AboutGoalPage from '@/pages/AboutGoalPage'
+import AboutGreetingPage from '@/pages/AboutGreetingPage'
+import AboutBoardPage from '@/pages/AboutBoardPage'
+import AboutHistoryPage from '@/pages/AboutHistoryPage'
+import AboutLocationPage from '@/pages/AboutLocationPage'
+import BusinessYouthPage from '@/pages/BusinessYouthPage'
+import BusinessStudentPage from '@/pages/BusinessStudentPage'
+import MentoringPage from '@/pages/MentoringPage'
+import NewsListPage from '@/pages/NewsListPage'
+import NewsDetailPage from '@/pages/NewsDetailPage'
+import ReportListPage from '@/pages/ReportListPage'
+import ReportDetailPage from '@/pages/ReportDetailPage'
+import NoticeListPage from '@/pages/NoticeListPage'
+import NoticeDetailPage from '@/pages/NoticeDetailPage'
 
 export const router = createBrowserRouter(
   [
@@ -13,12 +24,25 @@ export const router = createBrowserRouter(
       element: <MainLayout />,
       children: [
         { index: true, element: <HomePage /> },
-        { path: 'board/write', element: <BoardWritePage /> },
-        { path: 'board/:no/edit', element: <BoardEditPage /> },
-        { path: 'board/:no', element: <BoardDetailPage /> },
+        { path: 'about/goal', element: <AboutGoalPage /> },
+        { path: 'about/greeting', element: <AboutGreetingPage /> },
+        { path: 'about/board', element: <AboutBoardPage /> },
+        { path: 'about/history', element: <AboutHistoryPage /> },
+        { path: 'about/location', element: <AboutLocationPage /> },
+        { path: 'business/youth', element: <BusinessYouthPage /> },
+        { path: 'business/student', element: <BusinessStudentPage /> },
+        { path: 'mentoring', element: <MentoringPage /> },
+        { path: 'news', element: <NewsListPage /> },
+        { path: 'news/:no', element: <NewsDetailPage /> },
+        { path: 'report', element: <ReportListPage /> },
+        { path: 'report/:no', element: <ReportDetailPage /> },
+        { path: 'notice', element: <NoticeListPage /> },
+        { path: 'notice/:no', element: <NoticeDetailPage /> },
       ],
     },
     { path: '*', element: <NotFoundPage /> },
   ],
-  { basename: import.meta.env.BASE_URL },
+  {
+    basename: import.meta.env.BASE_URL,
+  },
 )
