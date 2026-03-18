@@ -51,7 +51,7 @@ export default function SiteHeader() {
       <div className={`header${isDropdownVisible ? ' active' : ''}`}>
         <div className="inner">
           <Link to="/" className="logo" aria-label="메인으로">
-            재단법인 참마중물
+            재단법인 참마중물이다
           </Link>
           <ul
             id="menu"
