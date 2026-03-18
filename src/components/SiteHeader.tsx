@@ -51,7 +51,7 @@ export default function SiteHeader() {
       <div className={`header${isDropdownVisible ? ' active' : ''}`}>
         <div className="inner">
           <Link to="/" className="logo" aria-label="메인으로">
-            참마중물재단
+            재단법인 참마중물
           </Link>
           <ul
             id="menu"
@@ -102,7 +102,7 @@ export default function SiteHeader() {
         style={{ display: isMobileOpen ? 'block' : 'none' }}
         aria-label="모바일 메뉴 팝업"
       >
-        <h2>참마중물재단</h2>
+        <h2>재단법인 참마중물</h2>
         <button
           type="button"
           className="btn_mobile_menu_close"
