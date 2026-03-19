@@ -13,6 +13,7 @@ export interface ReportItem {
   author_name: string
   created_at: string
   view_count: number
+  content: string | null
   file_count: number
 }
 

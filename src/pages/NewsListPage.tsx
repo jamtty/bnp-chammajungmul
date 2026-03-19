@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import SubPageLayout from '@/components/SubPageLayout'
 import { fetchNewsList, type NewsItem } from '@/api/news'
-import noImg from '@/assets/images/ico_no_img.svg'
 
 const PAGE_SIZE = 12
 
@@ -132,9 +131,7 @@ export default function NewsListPage() {
                           <img src={item.thumb_url} alt={item.title} />
                         </div>
                       ) : (
-                        <div className="thumb noImg">
-                          <img src={noImg} alt="이미지 없음" width="50" />
-                        </div>
+                        <div className="thumb noImg">NO IMAGE</div>
                       )}
                       <div className="txtWrap">
                         <p className="subject">{item.title}</p>
