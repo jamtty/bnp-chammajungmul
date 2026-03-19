@@ -5,6 +5,7 @@ import SiteFooter from './SiteFooter'
 interface LnbItem {
   label: string
   to: string
+  onClick?: () => void
 }
 
 interface SubPageLayoutProps {
@@ -41,8 +42,8 @@ export default function SubPageLayout({
           <div className="lnb">
             <ul>
               {lnbItems.map(item => (
-                <li key={item.to} className={pathname === item.to ? 'active' : ''}>
-                  <Link to={item.to}>{item.label}</Link>
+                <li key={item.to} className={pathname.startsWith(item.to) ? 'active' : ''}>
+                  <Link to={item.to} onClick={item.onClick}>{item.label}</Link>
                 </li>
               ))}
             </ul>

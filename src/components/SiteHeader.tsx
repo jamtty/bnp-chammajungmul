@@ -60,7 +60,7 @@ export default function SiteHeader() {
           >
             {navItems.map(item => (
               <li key={item.label}>
-                <Link to={item.subs[0].to}>
+                <Link to={item.subs[0].to} state={{ resetSearch: true }}>
                   {item.label}
                 </Link>
               </li>
@@ -86,7 +86,7 @@ export default function SiteHeader() {
             {navItems.map(item => (
               <li key={item.label}>
                 {item.subs.map(sub => (
-                  <Link key={sub.to} to={sub.to}>
+                  <Link key={sub.to} to={sub.to} state={{ resetSearch: true }} onClick={() => setIsDropdownVisible(false)}>
                     {sub.label}
                   </Link>
                 ))}
@@ -128,7 +128,7 @@ export default function SiteHeader() {
                 aria-label={`${item.label} 서브메뉴`}
               >
                 {item.subs.map(sub => (
-                  <Link key={sub.to} to={sub.to} onClick={() => setIsMobileOpen(false)}>
+                  <Link key={sub.to} to={sub.to} state={{ resetSearch: true }} onClick={() => setIsMobileOpen(false)}>
                     {sub.label}
                   </Link>
                 ))}

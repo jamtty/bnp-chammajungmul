@@ -1,5 +1,7 @@
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import SubPageLayout from '@/components/SubPageLayout'
+import { fetchReportDetail, type ReportDetailResponse } from '@/api/report'
 
 const lnbItems = [
   { label: '소식', to: '/news' },
@@ -7,6 +9,31 @@ const lnbItems = [
 ]
 
 export default function ReportDetailPage() {
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const [result, setResult] = useState<ReportDetailResponse | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const numId = Number(id)
+    if (!numId) {
+      navigate('/report', { replace: true })
+      return
+    }
+
+    let cancelled = false
+    setLoading(true)
+    setError(null)
+
+    fetchReportDetail(numId)
+      .then(res => { if (!cancelled) setResult(res) })
+      .catch(err => { if (!cancelled) setError(err.message) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+
+    return () => { cancelled = true }
+  }, [id, navigate])
+
   return (
     <SubPageLayout
       visualClass="vs4"
@@ -21,27 +48,45 @@ export default function ReportDetailPage() {
       <div className="inner">
         <div className="boardWrap">
           <div className="tblWrap">
-            <div className="viewTitle">
-              <h3>2024년 상반기 결산 보고</h3>
-              <div className="datetime">
-                <ul>
-                  <li>관리자</li>
-                  <li>2024.10.14</li>
-                </ul>
-              </div>
-            </div>
-            <div className="viewcon">
-              <p>2024년 상반기 결산 보고 자료 입니다.</p>
-            </div>
-            <div className="viewFile">
-              <ul>
-                <li><a href="#!" className="download">첨부파일 001_jpg</a></li>
-                <li><a href="#!" className="download">첨부파일 002_jpg</a></li>
-              </ul>
-            </div>
-            <div className="btnWrap">
-              <Link to="/report">목록가기</Link>
-            </div>
+            {loading && <p className="loading">불러오는 중...</p>}
+            {error && <p className="error">{error}</p>}
+            {!loading && result && (() => {
+              const { item, files } = result
+              return (
+                <>
+                  <div className="viewTitle">
+                    <h3>{item.title}</h3>
+                    <div className="datetime">
+                      <ul>
+                        <li>{item.author_name}</li>
+                        <li>{item.created_at}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="viewcon">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.content }}
+                    />
+                  </div>
+                  <div className="viewFile">
+                    {files.length > 0 && (
+                      <ul>
+                        {files.map(file => (
+                          <li key={file.id}>
+                            <a href={file.file_url} className="download" download={file.ori_name}>
+                              {file.ori_name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div className="btnWrap">
+                    <Link to="/report">목록가기</Link>
+                  </div>
+                </>
+              )
+            })()}
           </div>
         </div>
       </div>

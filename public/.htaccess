@@ -6,6 +6,9 @@
   RewriteCond %{ENV:REDIRECT_STATUS} ^$
   RewriteRule ^index\.html/?$ / [R=301,L]
 
+  # /backend/api/* 요청은 PHP로 처리 (React Router 제외)
+  RewriteRule ^backend/api/ - [L]
+
   # 실제 파일이나 디렉토리가 있으면 그대로 서빙
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

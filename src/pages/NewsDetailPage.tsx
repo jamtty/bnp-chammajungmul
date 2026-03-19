@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import SubPageLayout from '@/components/SubPageLayout'
-import thumDe from '@/assets/images/thum_2_de.png'
+import { fetchNewsDetail, type NewsDetailResponse } from '@/api/news'
 
 const lnbItems = [
   { label: '소식', to: '/news' },
@@ -8,6 +9,31 @@ const lnbItems = [
 ]
 
 export default function NewsDetailPage() {
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const [result, setResult] = useState<NewsDetailResponse | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const numId = Number(id)
+    if (!numId) {
+      navigate('/news', { replace: true })
+      return
+    }
+
+    let cancelled = false
+    setLoading(true)
+    setError(null)
+
+    fetchNewsDetail(numId)
+      .then(res => { if (!cancelled) setResult(res) })
+      .catch(err => { if (!cancelled) setError(err.message) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+
+    return () => { cancelled = true }
+  }, [id, navigate])
+
   return (
     <SubPageLayout
       visualClass="vs4"
@@ -22,33 +48,45 @@ export default function NewsDetailPage() {
       <div className="inner">
         <div className="boardWrap">
           <div className="tblWrap">
-            <div className="viewTitle">
-              <h3>2023년 멘토, 멘티 전체 만남의 날</h3>
-              <div className="datetime">
-                <ul>
-                  <li>관리자</li>
-                  <li>2024.10.14</li>
-                </ul>
-              </div>
-            </div>
-            <div className="viewcon">
-              <div className="center">
-                <div className="img"><img src={thumDe} alt="2023년 멘토, 멘티 전체 만남의 날" /></div>
-                <p>
-                  2023년도 멘토,멘티 전체 만남의 날 : 2023년 8월 21일 두번째로 모두 모여서 그 동안의 안부도 전하고,<br />
-                  진로나 학업의 어려움에 대한 내용을 공유하였습니다
-                </p>
-              </div>
-            </div>
-            <div className="viewFile">
-              <ul>
-                <li><a href="#!" className="download">첨부파일 001_jpg</a></li>
-                <li><a href="#!" className="download">첨부파일 002_jpg</a></li>
-              </ul>
-            </div>
-            <div className="btnWrap">
-              <Link to="/news">목록가기</Link>
-            </div>
+            {loading && <p className="loading">불러오는 중...</p>}
+            {error && <p className="error">{error}</p>}
+            {!loading && result && (() => {
+              const { item, files } = result
+              return (
+                <>
+                  <div className="viewTitle">
+                    <h3>{item.title}</h3>
+                    <div className="datetime">
+                      <ul>
+                        <li>{item.author_name}</li>
+                        <li>{item.created_at}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="viewcon">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.content }}
+                    />
+                  </div>
+                  <div className="viewFile">
+                    {files.length > 0 && (
+                      <ul>
+                        {files.map(file => (
+                          <li key={file.id}>
+                            <a href={file.file_url} className="download" download={file.ori_name}>
+                              {file.ori_name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div className="btnWrap">
+                    <Link to="/news">목록가기</Link>
+                  </div>
+                </>
+              )
+            })()}
           </div>
         </div>
       </div>

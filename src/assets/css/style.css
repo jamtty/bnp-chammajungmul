@@ -20,7 +20,7 @@
 .header .gnb li a:hover { color:#33B7FF; }
 .header .btn_mobile_menu { display:none; }
 
-.header.active { background:#fff; }
+.header.active { background:#f9f9f9; }
 .header.active .logo { font-size:2.4rem; font-weight: 700; color:#1B8FDB;  }
 .header.active .gnb li a { color:#333;  }
 .header.active .gnb li a:hover { color:#33B7FF; }
@@ -435,8 +435,9 @@
 .gallery_list li { margin:0 0 6rem; width:42.2rem; border-radius:1rem; height:42rem; cursor:pointer; background:#fff; box-shadow:1rem 1rem 1.5rem 0 rgba(0,0,0,.05); transition:all 0.2s ease-out; position:relative; top:0; }
 
 .gallery_list li .thumb { height:25.8rem; overflow:hidden; }
-.gallery_list li .thumb.noImg { background:#F4F4F4; display:flex; align-items: center; justify-content: center; font-size:2.4rem; font-weight:600; color:#DFDFDF; }
 .gallery_list li .thumb img { width:100%; height:100%; object-fit:cover; }
+.gallery_list li .thumb.noImg { background:#F4F4F4; display:flex; align-items: center; justify-content: center; font-size:2.4rem; font-weight:600; color:#DFDFDF; }
+.gallery_list li .thumb.noImg img { width:70%; height:auto; object-fit:cover; }
 .gallery_list li .txtWrap { padding:3.4rem 3.5rem; }
 .gallery_list li .txtWrap .subject { font-size:1.9rem; font-weight:500; padding:0 0 3.4rem; border-bottom:1px solid #D9D9D9; }
 .gallery_list li .txtWrap .subject.nodata { font-weight:400; color:#666; }
@@ -677,7 +678,7 @@
 .boardWrap .tblWrap .viewTitle  .datetime ul li:after { content:""; height:1rem; border-right:1px solid #555; margin:0 1.2rem; }
 .boardWrap .tblWrap .viewTitle  .datetime ul li:last-child:after { display:none; }
 
-.boardWrap .tblWrap .viewcon { padding:4rem 5rem 8rem; }
+.boardWrap .tblWrap .viewcon { padding:4rem 5rem 8rem; font-size:1.8rem; font-weight:500; line-height:150%; }
 .boardWrap .tblWrap .viewcon .center { text-align:center; }
 .boardWrap .tblWrap .viewcon .img { margin:0 0 3.5rem; }
 .boardWrap .tblWrap .viewcon p { font-size:1.8rem; font-weight:500; line-height:150%; }
@@ -703,7 +704,7 @@
     .boardWrap .tblWrap .viewTitle  .datetime ul li:after { content:""; height:1rem; border-right:1px solid #555; margin:0 1.2rem; }
     .boardWrap .tblWrap .viewTitle  .datetime ul li:last-child:after { display:none; }
 
-    .boardWrap .tblWrap .viewcon { padding:2rem 2rem 4.6rem; }
+    .boardWrap .tblWrap .viewcon { padding:2rem 2rem 4.6rem; font-size:1.6rem; font-weight:500; line-height:150%; }
     .boardWrap .tblWrap .viewcon .center { text-align:center; }
     .boardWrap .tblWrap .viewcon .img { margin:0 0 3.5rem; }
     .boardWrap .tblWrap .viewcon p { font-size:1.6rem; font-weight:500; line-height:150%; }
@@ -754,5 +755,7 @@
 @media (max-width: 1599px) {
     .btn_scroll_top { right: 1.8rem; bottom: 2.4rem; width: 4.4rem; height: 4.4rem; }
 }
+
+.no-data { text-align:center; font-size:1.6rem; color:#777; background:#f9f9f9; padding:5rem 0; }
 
 
