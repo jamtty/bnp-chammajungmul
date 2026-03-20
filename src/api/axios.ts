@@ -26,8 +26,11 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      useAuthStore.getState().clearAuth()
-      window.location.href = import.meta.env.BASE_URL + 'admin/login'
+      const url = error.config?.url ?? ''
+      if (!url.includes('/auth/login')) {
+        useAuthStore.getState().clearAuth()
+        window.location.href = import.meta.env.BASE_URL + 'admin/login'
+      }
     }
     return Promise.reject(error)
   },

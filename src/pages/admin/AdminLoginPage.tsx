@@ -11,7 +11,6 @@ export default function AdminLoginPage() {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const [showPw, setShowPw] = useState(false)
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   if (isAuthenticated) {
@@ -20,7 +19,6 @@ export default function AdminLoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
     setLoading(true)
 
     try {
@@ -32,7 +30,7 @@ export default function AdminLoginPage() {
       navigate('/admin', { replace: true })
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '로그인에 실패했습니다.'
-      setError(msg)
+      alert(msg)
     } finally {
       setLoading(false)
     }
@@ -90,8 +88,6 @@ export default function AdminLoginPage() {
               </button>
             </div>
           </div>
-          {error && <p className="admin_login_error">{error}</p>}
-
           <button type="submit" className="btn_admin_login" disabled={loading}>
             {loading ? '로그인 중...' : '로그인'}
           </button>
