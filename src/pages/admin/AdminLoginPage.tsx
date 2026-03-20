@@ -11,8 +11,6 @@ export default function AdminLoginPage() {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const [showPw, setShowPw] = useState(false)
-  const [saveId, setSaveId] = useState(false)
-  const [autoLogin, setAutoLogin] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -92,17 +90,6 @@ export default function AdminLoginPage() {
               </button>
             </div>
           </div>
-          <div className="admin_login_options">
-            <label>
-              <input type="checkbox" checked={saveId} onChange={(e) => setSaveId(e.target.checked)} />
-              아이디저장
-            </label>
-            <label>
-              <input type="checkbox" checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)} />
-              자동로그인
-            </label>
-          </div>
-
           {error && <p className="admin_login_error">{error}</p>}
 
           <button type="submit" className="btn_admin_login" disabled={loading}>
