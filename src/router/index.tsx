@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from '@/layouts/MainLayout'
+import AdminLayout from '@/layouts/AdminLayout'
 import HomePage from '@/pages/HomePage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import AboutGoalPage from '@/pages/AboutGoalPage'
@@ -16,6 +17,8 @@ import ReportListPage from '@/pages/ReportListPage'
 import ReportDetailPage from '@/pages/ReportDetailPage'
 import NoticeListPage from '@/pages/NoticeListPage'
 import NoticeDetailPage from '@/pages/NoticeDetailPage'
+import AdminLoginPage from '@/pages/admin/AdminLoginPage'
+import AdminMainPage from '@/pages/admin/AdminMainPage'
 
 export const router = createBrowserRouter(
   [
@@ -40,6 +43,14 @@ export const router = createBrowserRouter(
         { path: 'notice/:id', element: <NoticeDetailPage /> },
       ],
     },
+    {
+      path: '/admin',
+      element: <AdminLayout />,
+      children: [
+        { index: true, element: <AdminMainPage /> },
+      ],
+    },
+    { path: '/admin/login', element: <AdminLoginPage /> },
     { path: '*', element: <NotFoundPage /> },
   ],
   {

@@ -759,4 +759,144 @@
 
 .no-data { text-align:center; font-size:1.6rem; color:#777; background:#f9f9f9; padding:5rem 0; }
 
+/* ===== 관리자 로그인 ===== */
+.admin_login_wrap {
+    min-height: 100vh;
+    background: #f4f6fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin_login_box {
+    background: #fff;
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+    width: 100%;
+    max-width: 40rem;
+    padding: 5rem 4rem 4rem;
+}
+.admin_login_title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #111;
+    text-align: center;
+    margin-bottom: 3.2rem;
+    letter-spacing: -0.03em;
+}
+.admin_login_field {
+    margin-bottom: 1.6rem;
+}
+.admin_login_field label {
+    display: block;
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+}
+.admin_login_field .input_wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.admin_login_field input[type="text"],
+.admin_login_field input[type="password"] {
+    width: 100%;
+    height: 4.8rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.6rem;
+    padding: 0 4.4rem 0 1.4rem;
+    font-size: 1.5rem;
+    color: #111;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+.admin_login_field input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+}
+.admin_login_field input::placeholder {
+    color: #b0b8c1;
+    font-size: 1.4rem;
+}
+.btn_pw_toggle {
+    position: absolute;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    color: #9ca3af;
+    font-size: 1.8rem;
+    line-height: 1;
+}
+.btn_pw_toggle:hover { color: #4b5563; }
+.admin_login_options {
+    display: flex;
+    gap: 1.6rem;
+    margin-bottom: 2rem;
+}
+.admin_login_options label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    color: #555;
+    cursor: pointer;
+    user-select: none;
+}
+.admin_login_options input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    accent-color: #2563eb;
+    cursor: pointer;
+}
+.admin_login_error {
+    font-size: 1.3rem;
+    color: #ef4444;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.6rem;
+    padding: 0.9rem 1.2rem;
+    margin-bottom: 1.4rem;
+}
+.btn_admin_login {
+    width: 100%;
+    height: 5rem;
+    background: #2563eb;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: -0.01em;
+}
+.btn_admin_login:hover { background: #1d4ed8; }
+.btn_admin_login:disabled { opacity: 0.6; cursor: not-allowed; }
+.admin_login_links {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-top: 1.8rem;
+}
+.admin_login_links a,
+.admin_login_links span {
+    font-size: 1.3rem;
+    color: #6b7280;
+    text-decoration: none;
+    padding: 0 1.2rem;
+    cursor: pointer;
+}
+.admin_login_links a:hover { color: #2563eb; text-decoration: underline; }
+.admin_login_links .divider {
+    color: #d1d5db;
+    padding: 0;
+    cursor: default;
+}
+
 
