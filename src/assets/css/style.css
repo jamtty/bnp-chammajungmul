@@ -1131,4 +1131,78 @@
     color: #333;
 }
 
+/* ===== 관리자 마이페이지 ===== */
+.adm_mypage_info {
+    padding: 0.8rem 2rem 2rem;
+}
+.adm_mypage_row {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+.adm_mypage_row:last-child { border-bottom: none; }
+.adm_mypage_label {
+    width: 10rem;
+    font-size: 1.3rem;
+    color: #888;
+    flex-shrink: 0;
+}
+.adm_mypage_value {
+    font-size: 1.4rem;
+    color: #111;
+    font-weight: 500;
+}
+
+.adm_mypage_form {
+    padding: 0.8rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+.adm_form_field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.adm_form_field label {
+    font-size: 1.3rem;
+    color: #555;
+    font-weight: 500;
+}
+.adm_form_field label small {
+    font-size: 1.1rem;
+    color: #aaa;
+    font-weight: 400;
+}
+.adm_form_field input {
+    height: 4.2rem;
+    padding: 0 1.2rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.6rem;
+    font-size: 1.4rem;
+    color: #111;
+    outline: none;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+    width: 100%;
+}
+.adm_form_field input:focus {
+    border-color: #2563eb;
+}
+.adm_btn_primary {
+    height: 4.4rem;
+    padding: 0 2.4rem;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 0.6rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    align-self: flex-start;
+}
+.adm_btn_primary:hover { background: #1d4ed8; }
+.adm_btn_primary:disabled { background: #93c5fd; cursor: not-allowed; }
 

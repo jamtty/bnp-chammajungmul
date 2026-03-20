@@ -26,3 +26,27 @@ export const loginAdmin = async (loginId: string, password: string): Promise<Log
     throw err
   }
 }
+
+/**
+ * 비밀번호 변경
+ * PATCH /api/auth/password
+ */
+export const changePassword = async (
+  currentPassword: string,
+  newPassword: string,
+  newPasswordConfirm: string,
+): Promise<void> => {
+  try {
+    const { data } = await apiClient.patch('/api/auth/password', {
+      current_password: currentPassword,
+      new_password: newPassword,
+      new_password_confirm: newPasswordConfirm,
+    })
+    if (!data.success) throw new Error(data.message || '비밀번호 변경에 실패했습니다.')
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err) && err.response?.data?.message) {
+      throw new Error(err.response.data.message)
+    }
+    throw err
+  }
+}

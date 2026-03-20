@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useAuthStore } from '@/store/useAuthStore'
+import AdminHeader from '@/components/admin/AdminHeader'
 import { fetchNewsList } from '@/api/news'
 import { fetchReportList } from '@/api/report'
 import { fetchNoticeList } from '@/api/notice'
@@ -20,12 +20,9 @@ const sideMenuItems = [
 ]
 
 export default function AdminMainPage() {
-  const { user, clearAuth } = useAuthStore()
   const location = useLocation()
   const [stats, setStats] = useState<Stats>({ news: 0, report: 0, notice: 0 })
   const [statsLoading, setStatsLoading] = useState(true)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     Promise.allSettled([
@@ -40,16 +37,6 @@ export default function AdminMainPage() {
       })
       setStatsLoading(false)
     })
-  }, [])
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
   const pageTitle = sideMenuItems.find((m) => m.to === location.pathname)?.label ?? '대시보드'
@@ -80,23 +67,7 @@ export default function AdminMainPage() {
       {/* 콘텐츠 영역 */}
       <div className="adm_content">
         {/* 상단 헤더 */}
-        <header className="adm_header">
-          <h2 className="adm_page_title">{pageTitle}</h2>
-          <div className="adm_user" ref={dropdownRef}>
-            <button className="adm_user_btn" onClick={() => setDropdownOpen((v) => !v)}>
-              {user?.name ?? '관리자'}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            {dropdownOpen && (
-              <ul className="adm_dropdown">
-                <li><Link to="/" onClick={() => setDropdownOpen(false)}>마이페이지</Link></li>
-                <li><button onClick={() => { clearAuth(); setDropdownOpen(false) }}>로그아웃</button></li>
-              </ul>
-            )}
-          </div>
-        </header>
+        <AdminHeader pageTitle={pageTitle} />
 
         {/* 본문 */}
         <main className="adm_main">

@@ -19,6 +19,7 @@ import NoticeListPage from '@/pages/NoticeListPage'
 import NoticeDetailPage from '@/pages/NoticeDetailPage'
 import AdminLoginPage from '@/pages/admin/AdminLoginPage'
 import AdminMainPage from '@/pages/admin/AdminMainPage'
+import AdminMyPage from '@/pages/admin/AdminMyPage'
 
 export const router = createBrowserRouter(
   [
@@ -48,6 +49,7 @@ export const router = createBrowserRouter(
       element: <AdminLayout />,
       children: [
         { index: true, element: <AdminMainPage /> },
+        { path: 'mypage', element: <AdminMyPage /> },
       ],
     },
     { path: '/admin/login', element: <AdminLoginPage /> },
