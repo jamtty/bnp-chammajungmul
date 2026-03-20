@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import AdminHeader from '@/components/admin/AdminHeader'
+import AdminSidebar from '@/components/admin/AdminSidebar'
 import { useAuthStore } from '@/store/useAuthStore'
 import { changePassword } from '@/api/auth'
 import '@/assets/css/style.css'
@@ -37,11 +38,7 @@ export default function AdminMyPage() {
 
   return (
     <div className="adm_wrap">
-      <aside className="adm_sidebar">
-        <div className="adm_logo">
-          <a href="/">참마중물재단</a>
-        </div>
-      </aside>
+      <AdminSidebar />
 
       <div className="adm_content">
         <AdminHeader pageTitle="마이페이지" />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import AdminHeader from '@/components/admin/AdminHeader'
+import AdminSidebar, { sideMenuItems } from '@/components/admin/AdminSidebar'
 import { fetchNewsList } from '@/api/news'
 import { fetchReportList } from '@/api/report'
 import { fetchNoticeList } from '@/api/notice'
@@ -11,13 +12,6 @@ interface Stats {
   report: number
   notice: number
 }
-
-const sideMenuItems = [
-  { label: '대시보드', to: '/admin' },
-  { label: '소식 관리', to: '/admin/news' },
-  { label: '사업보고 관리', to: '/admin/report' },
-  { label: '공지사항 관리', to: '/admin/notice' },
-]
 
 export default function AdminMainPage() {
   const location = useLocation()
@@ -43,26 +37,7 @@ export default function AdminMainPage() {
 
   return (
     <div className="adm_wrap">
-      {/* 사이드바 */}
-      <aside className="adm_sidebar">
-        <div className="adm_logo">
-          <Link to="/">참마중물재단</Link>
-        </div>
-        <nav className="adm_nav">
-          <ul>
-            {sideMenuItems.map((item) => (
-              <li key={item.to}>
-                <Link
-                  to={item.to}
-                  className={location.pathname === item.to ? 'active' : ''}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
+      <AdminSidebar />
 
       {/* 콘텐츠 영역 */}
       <div className="adm_content">
