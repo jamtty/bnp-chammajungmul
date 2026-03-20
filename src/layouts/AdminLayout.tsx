@@ -8,9 +8,5 @@ export default function AdminLayout() {
     return <Navigate to="/admin/login" replace />
   }
 
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <Outlet />
-    </div>
-  )
+  return <Outlet />
 }
