@@ -4,6 +4,7 @@ import AdminHeader from '@/components/admin/AdminHeader'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import RichEditor from '@/components/admin/RichEditor'
 import { createNotice, updateNotice, fetchNoticeDetail, deleteNoticeFile, type NoticeFile } from '@/api/notice'
+import { toAbsUrl } from '@/utils/uploadUrl'
 import '@/assets/css/style.css'
 
 export default function AdminNoticeFormPage() {
@@ -128,9 +129,9 @@ export default function AdminNoticeFormPage() {
                     {existingFiles.map(f => (
                       <li key={f.id} className="adm_file_item">
                         {/^(jpg|jpeg|png|gif|webp)$/i.test(f.file_ext) && (
-                          <img src={f.file_url} className="adm_file_thumb" alt={f.ori_name} />
+                          <img src={toAbsUrl(f.file_url)} className="adm_file_thumb" alt={f.ori_name} />
                         )}
-                        <a href={f.file_url} target="_blank" rel="noopener noreferrer" className="adm_file_name">
+                        <a href={toAbsUrl(f.file_url)} target="_blank" rel="noopener noreferrer" className="adm_file_name">
                           {f.ori_name}
                         </a>
                         <button type="button" className="adm_file_del" onClick={() => handleDeleteExistingFile(f.id)}><span className="material-icons">close</span></button>

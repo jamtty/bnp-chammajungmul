@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import SubPageLayout from '@/components/SubPageLayout'
 import { fetchNewsList, type NewsItem } from '@/api/news'
+import { toAbsUrl } from '@/utils/uploadUrl'
 
 const PAGE_SIZE = 12
 
@@ -128,7 +129,7 @@ export default function NewsListPage() {
                     <Link to={`/news/${item.id}`}>
                       {item.thumb_url ? (
                         <div className="thumb">
-                          <img src={item.thumb_url} alt={item.title} />
+                          <img src={toAbsUrl(item.thumb_url)} alt={item.title} />
                         </div>
                       ) : (
                         <div className="thumb noImg">NO IMAGE</div>

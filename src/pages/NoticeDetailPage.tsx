@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import SubPageLayout from '@/components/SubPageLayout'
 import { fetchNoticeDetail, type NoticeDetailResponse } from '@/api/notice'
 import { useAuthStore } from '@/store/useAuthStore'
+import { toAbsUrl, resolveContentUrls } from '@/utils/uploadUrl'
 
 export default function NoticeDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -68,7 +69,7 @@ export default function NoticeDetailPage() {
                   <div className="viewcon">
                     <div
                       className="tiptap-content"
-                      dangerouslySetInnerHTML={{ __html: item.content.replace(/<table/gi, '<div class="table-scroll-wrap"><table').replace(/<\/table>/gi, '</table></div>') }}
+                      dangerouslySetInnerHTML={{ __html: resolveContentUrls(item.content).replace(/<table/gi, '<div class="table-scroll-wrap"><table').replace(/<\/table>/gi, '</table></div>') }}
                     />
                   </div>
                   <div className="viewFile">
@@ -76,7 +77,7 @@ export default function NoticeDetailPage() {
                       <ul>
                         {files.map(file => (
                           <li key={file.id}>
-                            <a href={file.file_url} className="download" download={file.ori_name}>
+                            <a href={toAbsUrl(file.file_url)} className="download" download={file.ori_name}>
                               {file.ori_name}
                             </a>
                           </li>

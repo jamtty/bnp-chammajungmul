@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import SubPageLayout from '@/components/SubPageLayout'
 import { fetchNewsDetail, type NewsDetailResponse } from '@/api/news'
 import { useAuthStore } from '@/store/useAuthStore'
+import { toAbsUrl, resolveContentUrls } from '@/utils/uploadUrl'
 
 const lnbItems = [
   { label: '소식', to: '/news' },
@@ -74,7 +75,7 @@ export default function NewsDetailPage() {
                   <div className="viewcon">
                     <div
                       className="tiptap-content"
-                      dangerouslySetInnerHTML={{ __html: item.content.replace(/<table/gi, '<div class="table-scroll-wrap"><table').replace(/<\/table>/gi, '</table></div>') }}
+                      dangerouslySetInnerHTML={{ __html: resolveContentUrls(item.content).replace(/<table/gi, '<div class="table-scroll-wrap"><table').replace(/<\/table>/gi, '</table></div>') }}
                     />
                   </div>
                   <div className="viewFile">
@@ -82,7 +83,7 @@ export default function NewsDetailPage() {
                       <ul>
                         {files.map(file => (
                           <li key={file.id}>
-                            <a href={file.file_url} className="download" download={file.ori_name}>
+                            <a href={toAbsUrl(file.file_url)} className="download" download={file.ori_name}>
                               {file.ori_name}
                             </a>
                           </li>

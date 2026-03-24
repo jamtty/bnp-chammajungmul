@@ -5,6 +5,7 @@ import { fetchNewsList, type NewsItem } from '@/api/news'
 import { fetchNoticeList, type NoticeItem } from '@/api/notice'
 import { fetchReportList, type ReportItem } from '@/api/report'
 import Swiper from 'swiper'
+import { toAbsUrl } from '@/utils/uploadUrl'
 
 import '@/assets/css/fullpage.min.css'
 import '@/assets/css/swiper.min.css'
@@ -188,7 +189,7 @@ export default function HomePage() {
                       <div key={item.id} className="swiper-slide" onClick={() => navigate(`/news/${item.id}`)}>
                         <div className="thumb">
                           {item.thumb_url ? (
-                            <img src={item.thumb_url} alt={item.title} />
+                            <img src={toAbsUrl(item.thumb_url)} alt={item.title} />
                           ) : (
                             <div className="thumb noImg">NO IMAGE</div>
                           )}
