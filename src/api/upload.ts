@@ -12,5 +12,7 @@ export const uploadEditorImage = async (file: File): Promise<string> => {
     timeout: 60000, // 이미지 업로드는 60초로 연장
   })
   if (!data.success) throw new Error(data.message ?? '이미지 업로드에 실패했습니다.')
-  return data.data.url as string
+  const url = data.data.url as string
+  const base = (import.meta.env.VITE_UPLOAD_BASE_URL ?? '').replace(/\/$/, '')
+  return base && url.startsWith('/') ? base + url : url
 }

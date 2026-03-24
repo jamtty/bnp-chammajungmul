@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useEditor, EditorContent, Extension } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
@@ -14,6 +14,7 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import HardBreak from '@tiptap/extension-hard-break'
 import { uploadEditorImage } from '@/api/upload'
+import { resolveContentUrls } from '@/utils/uploadUrl'
 
 // FontSize — TextStyle 기반 커스텀 Extension
 const FontSize = Extension.create({
@@ -62,6 +63,7 @@ export default function RichEditor({ value, onChange, placeholder }: Props) {
   const [tableRows, setTableRows] = useState('3')
   const [tableCols, setTableCols] = useState('3')
   const [showColorPicker, setShowColorPicker] = useState(false)
+  const isInternalChange = useRef(false)
 
   const editor = useEditor({
     extensions: [
@@ -86,8 +88,9 @@ export default function RichEditor({ value, onChange, placeholder }: Props) {
       TableHeader,
       TableCell,
     ],
-    content: value || '',
+    content: resolveContentUrls(value || ''),
     onUpdate: ({ editor }) => {
+      isInternalChange.current = true
       const html = editor.getHTML()
       onChange(html === '<p></p>' ? '' : html)
     },
@@ -116,6 +119,17 @@ export default function RichEditor({ value, onChange, placeholder }: Props) {
       },
     },
   })
+
+  // 외부에서 value가 변경될 때(API 데이터 로딩 등) 에디터 콘텐츠 동기화
+  // isInternalChange 플래그로 사용자 입력에 의한 재진입 방지
+  useEffect(() => {
+    if (!editor || editor.isDestroyed) return
+    if (isInternalChange.current) {
+      isInternalChange.current = false
+      return
+    }
+    editor.commands.setContent(resolveContentUrls(value || ''), { emitUpdate: false })
+  }, [editor, value])
 
   // 이미지 업로드
   const handleImageInsert = useCallback(() => {
