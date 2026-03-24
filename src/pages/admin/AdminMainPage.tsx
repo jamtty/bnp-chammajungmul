@@ -51,9 +51,9 @@ export default function AdminMainPage() {
             <h3 className="adm_section_title">콘텐츠 현황</h3>
             <div className="adm_stats">
               {[
-                { label: '소식', count: stats.news },
-                { label: '사업보고', count: stats.report },
-                { label: '공지사항', count: stats.notice },
+                { label: '소식', count: stats.news, icon: 'newspaper' },
+                { label: '사업보고', count: stats.report, icon: 'description' },
+                { label: '공지사항', count: stats.notice, icon: 'campaign' },
               ].map((item) => (
                 <div key={item.label} className="adm_stat_card">
                   <p className="adm_stat_label">{item.label}</p>
@@ -68,17 +68,17 @@ export default function AdminMainPage() {
           <section className="adm_section">
             <h3 className="adm_section_title">바로가기</h3>
             <div className="adm_shortcuts">
-              <Link to="/news" className="adm_shortcut_card">
-                <span className="adm_shortcut_icon">📰</span>
-                <span className="adm_shortcut_label">소식 관리</span>
+              <Link to="/news" target="_blank" rel="noopener noreferrer" className="adm_shortcut_card">
+                <span className="material-icons adm_shortcut_icon">newspaper</span>
+                <span className="adm_shortcut_label">소식</span>
               </Link>
-              <Link to="/report" className="adm_shortcut_card">
-                <span className="adm_shortcut_icon">📋</span>
-                <span className="adm_shortcut_label">사업보고 관리</span>
+              <Link to="/report" target="_blank" rel="noopener noreferrer" className="adm_shortcut_card">
+                <span className="material-icons adm_shortcut_icon">description</span>
+                <span className="adm_shortcut_label">사업보고</span>
               </Link>
-              <Link to="/notice" className="adm_shortcut_card">
-                <span className="adm_shortcut_icon">📢</span>
-                <span className="adm_shortcut_label">공지사항 관리</span>
+              <Link to="/notice" target="_blank" rel="noopener noreferrer" className="adm_shortcut_card">
+                <span className="material-icons adm_shortcut_icon">campaign</span>
+                <span className="adm_shortcut_label">공지사항</span>
               </Link>
             </div>
           </section>

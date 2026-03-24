@@ -63,9 +63,51 @@ export const fetchReportList = async (params: ReportListParams = {}): Promise<Re
 
 /**
  * 사업보고 상세 조회
+ * @param preview true일 때 조회수 증가 안 함 (관리자 수정 페이지 용)
  */
-export const fetchReportDetail = async (id: number): Promise<ReportDetailResponse> => {
-  const { data } = await apiClient.get(`/api/report/${id}`)
+export const fetchReportDetail = async (id: number, preview = false): Promise<ReportDetailResponse> => {
+  const { data } = await apiClient.get(`/api/report/${id}`, { params: preview ? { preview: '1' } : {} })
   if (!data.success) throw new Error(data.message)
   return data.data
+}
+
+/**
+ * 사업보고 등록
+ */
+export const createReport = async (title: string, content: string, files?: File[]): Promise<{ id: number }> => {
+  const form = new FormData()
+  form.append('title', title)
+  form.append('content', content)
+  files?.forEach(f => form.append('files[]', f))
+  const { data } = await apiClient.post('/api/report', form, { headers: { 'Content-Type': undefined } })
+  if (!data.success) throw new Error(data.message)
+  return data.data
+}
+
+/**
+ * 사업보고 수정
+ */
+export const updateReport = async (id: number, title: string, content: string, files?: File[]): Promise<void> => {
+  const form = new FormData()
+  form.append('title', title)
+  form.append('content', content)
+  files?.forEach(f => form.append('files[]', f))
+  const { data } = await apiClient.post(`/api/report/${id}`, form, { headers: { 'Content-Type': undefined } })
+  if (!data.success) throw new Error(data.message)
+}
+
+/**
+ * 첨부파일 삭제
+ */
+export const deleteReportFile = async (fileId: number): Promise<void> => {
+  const { data } = await apiClient.post(`/api/report/file/${fileId}/delete`)
+  if (!data.success) throw new Error(data.message)
+}
+
+/**
+ * 사업보고 삭제
+ */
+export const deleteReport = async (id: number): Promise<void> => {
+  const { data } = await apiClient.post(`/api/report/${id}/delete`)
+  if (!data.success) throw new Error(data.message)
 }

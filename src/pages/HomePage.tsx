@@ -5,7 +5,6 @@ import { fetchNewsList, type NewsItem } from '@/api/news'
 import { fetchNoticeList, type NoticeItem } from '@/api/notice'
 import { fetchReportList, type ReportItem } from '@/api/report'
 import Swiper from 'swiper'
-import { Navigation } from 'swiper/modules'
 
 import '@/assets/css/fullpage.min.css'
 import '@/assets/css/swiper.min.css'
@@ -21,7 +20,17 @@ import maincon4 from '@/assets/images/maincon_4.png'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const $: any
 
-const stripHtml = (html: string) => html.replace(/<[^>]*>/g, '').trim()
+const stripHtml = (html: string) =>
+  html
+    .replace(/<[^>]*>?/g, '')         // 1차: 완전한 태그 + 닫는 > 없는 불완전 태그 제거
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/<[^>]*>?/g, '')         // 2차: 엔티티 디코딩 후 남은 태그/조각 제거
+    .trim()
+const truncate = (str: string, max = 23) => str.length > max ? str.slice(0, max) + '…' : str
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -30,15 +39,18 @@ export default function HomePage() {
   const [noticeItems, setNoticeItems] = useState<NoticeItem[]>([])
   const [reportItems, setReportItems] = useState<ReportItem[]>([])
   const swiperRef = useRef<Swiper | null>(null)
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    fetchNewsList({ page: 1, size: 6 }).then(res => setNewsItems(res.items)).catch(() => {})
-    fetchNoticeList({ page: 1, size: 3 }).then(res => setNoticeItems(res.items)).catch(() => {})
-    fetchReportList({ page: 1, size: 3 }).then(res => setReportItems(res.items)).catch(() => {})
+    Promise.all([
+      fetchNewsList({ page: 1, size: 6 }).then(res => setNewsItems(res.items)).catch(() => {}),
+      fetchNoticeList({ page: 1, size: 3 }).then(res => setNoticeItems(res.items)).catch(() => {}),
+      fetchReportList({ page: 1, size: 3 }).then(res => setReportItems(res.items)).catch(() => {}),
+    ]).finally(() => setLoaded(true))
   }, [])
 
   useEffect(() => {
-    if (newsItems.length === 0) return
+    if (!loaded) return
 
     const isMobile = window.innerWidth <= 767
 
@@ -54,22 +66,17 @@ export default function HomePage() {
       })
     }
 
-    swiperRef.current = new Swiper('.newsSwiper', {
-      modules: [Navigation],
-      slidesPerView: 1,
-      spaceBetween: 18,
-      loop: true,
-      observer: true,
-      observeParents: true,
-      navigation: {
-        nextEl: '.swiper-button-prev',
-        prevEl: '.swiper-button-next',
-        addIcons: false,
-      },
-      breakpoints: {
-        1600: { slidesPerView: 4 },
-      },
-    })
+    if (newsItems.length > 0) {
+      swiperRef.current = new Swiper('.newsSwiper', {
+        slidesPerView: 1,
+        spaceBetween: 18,
+        loop: true,
+        watchOverflow: false,
+        breakpoints: {
+          1600: { slidesPerView: 4 },
+        },
+      })
+    }
 
     return () => {
       document.body.classList.remove('scroll-none')
@@ -78,7 +85,7 @@ export default function HomePage() {
       }
       swiperRef.current?.destroy()
     }
-  }, [newsItems])
+  }, [loaded]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
@@ -171,27 +178,29 @@ export default function HomePage() {
                 <span className="txtEng">News of the foundation</span>
                 <span className="txtKor"><strong>재단</strong> 소식</span>
               </h1>
-              <button type="button" className="swiper-button-prev" />
-              <button type="button" className="swiper-button-next" />
             </div>
             <div className="swiper newsSwiper">
-              <div className="swiper-wrapper">
-                {newsItems.map(item => (
-                  <div key={item.id} className="swiper-slide" onClick={() => navigate(`/news/${item.id}`)}>
-                    <div className="thumb">
-                      {item.thumb_url ? (
-                        <img src={item.thumb_url} alt={item.title} />
-                      ) : (
-                        <div className="thumb noImg">NO IMAGE</div>
-                      )}
-                    </div>
-                    <div className="txtWrap">
-                      <p className="subject">{item.title}</p>
-                      <p className="datetime">{item.created_at.slice(0, 10)}</p>
-                    </div>
+                {loaded && (newsItems.length === 0 ? (
+                  <p className="home_empty">등록된 소식이 없습니다.</p>
+                ) : (
+                  <div className="swiper-wrapper">
+                    {newsItems.map(item => (
+                      <div key={item.id} className="swiper-slide" onClick={() => navigate(`/news/${item.id}`)}>
+                        <div className="thumb">
+                          {item.thumb_url ? (
+                            <img src={item.thumb_url} alt={item.title} />
+                          ) : (
+                            <div className="thumb noImg">NO IMAGE</div>
+                          )}
+                        </div>
+                        <div className="txtWrap">
+                          <p className="subject">{item.title}</p>
+                          <p className="datetime">{item.created_at.slice(0, 10)}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))}
-              </div>
             </div>
           </div>
 
@@ -219,12 +228,15 @@ export default function HomePage() {
 
             <div id="tab-1" className={`tabcontents${activeTab === 'tab-1' ? ' active' : ''}`}>
               <Link to="/notice" className="more" aria-label="전체 바로가기" />
+              {noticeItems.length === 0 && reportItems.length === 0 ? (
+                <p className="home_empty">등록된 게시글이 없습니다.</p>
+              ) : (
               <ul className="col2">
                 {[...noticeItems.slice(0, 1), ...reportItems.slice(0, 1)].map((item, i) => (
                   <li key={i}>
                     <p className="datetime">{item.created_at.slice(0, 10)}</p>
-                    <p className="subject">{item.title}</p>
-                    {item.content && <p className="memo">{stripHtml(item.content)}</p>}
+                    <p className="subject">{truncate(item.title)}</p>
+                    {item.content && <p className="memo">{truncate(stripHtml(item.content), 55)}</p>}
                     <Link
                       to={i === 0 ? `/notice/${item.id}` : `/report/${item.id}`}
                       className="viewMore"
@@ -233,34 +245,43 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
+              )}
             </div>
 
             <div id="tab-2" className={`tabcontents${activeTab === 'tab-2' ? ' active' : ''}`}>
               <Link to="/notice" className="more" aria-label="공지사항 바로가기" />
+              {noticeItems.length === 0 ? (
+                <p className="home_empty">등록된 공지사항이 없습니다.</p>
+              ) : (
               <ul className="col2">
                 {noticeItems.slice(0, 3).map(item => (
                   <li key={item.id} className="bg1">
                     <p className="datetime">{item.created_at.slice(0, 10)}</p>
-                    <p className="subject">{item.title}</p>
-                    {item.content && <p className="memo">{stripHtml(item.content)}</p>}
+                    <p className="subject">{truncate(item.title)}</p>
+                    {item.content && <p className="memo">{truncate(stripHtml(item.content), 55)}</p>}
                     <Link to={`/notice/${item.id}`} className="viewMore" aria-label="더보기">View more</Link>
                   </li>
                 ))}
               </ul>
+              )}
             </div>
 
             <div id="tab-3" className={`tabcontents${activeTab === 'tab-3' ? ' active' : ''}`}>
               <Link to="/report" className="more" aria-label="사업보고 바로가기" />
+              {reportItems.length === 0 ? (
+                <p className="home_empty">등록된 사업보고가 없습니다.</p>
+              ) : (
               <ul className="col2">
                 {reportItems.slice(0, 3).map(item => (
                   <li key={item.id} className="bg2">
                     <p className="datetime">{item.created_at.slice(0, 10)}</p>
-                    <p className="subject">{item.title}</p>
-                    {item.content && <p className="memo">{stripHtml(item.content)}</p>}
+                    <p className="subject">{truncate(item.title)}</p>
+                    {item.content && <p className="memo">{truncate(stripHtml(item.content), 55)}</p>}
                     <Link to={`/report/${item.id}`} className="viewMore" aria-label="더보기">View more</Link>
                   </li>
                 ))}
               </ul>
+              )}
             </div>
           </div>
 

@@ -63,9 +63,51 @@ export const fetchNoticeList = async (params: NoticeListParams = {}): Promise<No
 
 /**
  * 공지사항 상세 조회
+ * @param preview true일 때 조회수 증가 안 함 (관리자 수정 페이지 용)
  */
-export const fetchNoticeDetail = async (id: number): Promise<NoticeDetailResponse> => {
-  const { data } = await apiClient.get(`/api/notice/${id}`)
+export const fetchNoticeDetail = async (id: number, preview = false): Promise<NoticeDetailResponse> => {
+  const { data } = await apiClient.get(`/api/notice/${id}`, { params: preview ? { preview: '1' } : {} })
   if (!data.success) throw new Error(data.message)
   return data.data
+}
+
+/**
+ * 공지사항 등록
+ */
+export const createNotice = async (title: string, content: string, files?: File[]): Promise<{ id: number }> => {
+  const form = new FormData()
+  form.append('title', title)
+  form.append('content', content)
+  files?.forEach(f => form.append('files[]', f))
+  const { data } = await apiClient.post('/api/notice', form, { headers: { 'Content-Type': undefined } })
+  if (!data.success) throw new Error(data.message)
+  return data.data
+}
+
+/**
+ * 공지사항 수정
+ */
+export const updateNotice = async (id: number, title: string, content: string, files?: File[]): Promise<void> => {
+  const form = new FormData()
+  form.append('title', title)
+  form.append('content', content)
+  files?.forEach(f => form.append('files[]', f))
+  const { data } = await apiClient.post(`/api/notice/${id}`, form, { headers: { 'Content-Type': undefined } })
+  if (!data.success) throw new Error(data.message)
+}
+
+/**
+ * 첨부파일 삭제
+ */
+export const deleteNoticeFile = async (fileId: number): Promise<void> => {
+  const { data } = await apiClient.post(`/api/notice/file/${fileId}/delete`)
+  if (!data.success) throw new Error(data.message)
+}
+
+/**
+ * 공지사항 삭제
+ */
+export const deleteNotice = async (id: number): Promise<void> => {
+  const { data } = await apiClient.post(`/api/notice/${id}/delete`)
+  if (!data.success) throw new Error(data.message)
 }

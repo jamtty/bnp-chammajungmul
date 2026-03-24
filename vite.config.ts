@@ -9,6 +9,9 @@ export default defineConfig(({ mode }) => {
   return {
     base: env.VITE_BASE_URL || '/',
     plugins: [react()],
+    css: {
+      devSourcemap: true,
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
@@ -24,6 +27,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: true,
           rewrite: (path) => '/backend' + path,
+        },
+        '/uploads': {
+          target: 'https://bnpchamma.mycafe24.com',
+          changeOrigin: true,
+          secure: true,
         },
       },
     },

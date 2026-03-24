@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import SubPageLayout from '@/components/SubPageLayout'
 import { fetchReportDetail, type ReportDetailResponse } from '@/api/report'
+import { useAuthStore } from '@/store/useAuthStore'
 
 const lnbItems = [
   { label: '소식', to: '/news' },
@@ -11,6 +12,7 @@ const lnbItems = [
 export default function ReportDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const isAdmin = useAuthStore(s => s.isAuthenticated)
   const [result, setResult] = useState<ReportDetailResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -22,17 +24,23 @@ export default function ReportDetailPage() {
       return
     }
 
+    const today = new Date().toISOString().slice(0, 10)
+    const storageKey = `viewed_report_${numId}_${today}`
+    const alreadyViewed = Boolean(localStorage.getItem(storageKey))
+    const skipCount = isAdmin || alreadyViewed
+    if (!skipCount) localStorage.setItem(storageKey, '1')
+
     let cancelled = false
     setLoading(true)
     setError(null)
 
-    fetchReportDetail(numId)
+    fetchReportDetail(numId, skipCount)
       .then(res => { if (!cancelled) setResult(res) })
       .catch(err => { if (!cancelled) setError(err.message) })
       .finally(() => { if (!cancelled) setLoading(false) })
 
     return () => { cancelled = true }
-  }, [id, navigate])
+  }, [id])
 
   return (
     <SubPageLayout
@@ -65,7 +73,8 @@ export default function ReportDetailPage() {
                   </div>
                   <div className="viewcon">
                     <div
-                      dangerouslySetInnerHTML={{ __html: item.content }}
+                      className="tiptap-content"
+                      dangerouslySetInnerHTML={{ __html: item.content.replace(/<table/gi, '<div class="table-scroll-wrap"><table').replace(/<\/table>/gi, '</table></div>') }}
                     />
                   </div>
                   <div className="viewFile">

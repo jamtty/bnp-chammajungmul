@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import SubPageLayout from '@/components/SubPageLayout'
 import { fetchNoticeDetail, type NoticeDetailResponse } from '@/api/notice'
+import { useAuthStore } from '@/store/useAuthStore'
 
 export default function NoticeDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const isAdmin = useAuthStore(s => s.isAuthenticated)
   const [result, setResult] = useState<NoticeDetailResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -17,17 +19,23 @@ export default function NoticeDetailPage() {
       return
     }
 
+    const today = new Date().toISOString().slice(0, 10)
+    const storageKey = `viewed_notice_${numId}_${today}`
+    const alreadyViewed = Boolean(localStorage.getItem(storageKey))
+    const skipCount = isAdmin || alreadyViewed
+    if (!skipCount) localStorage.setItem(storageKey, '1')
+
     let cancelled = false
     setLoading(true)
     setError(null)
 
-    fetchNoticeDetail(numId)
+    fetchNoticeDetail(numId, skipCount)
       .then(res => { if (!cancelled) setResult(res) })
       .catch(err => { if (!cancelled) setError(err.message) })
       .finally(() => { if (!cancelled) setLoading(false) })
 
     return () => { cancelled = true }
-  }, [id, navigate])
+  }, [id])
 
   return (
     <SubPageLayout
@@ -59,7 +67,8 @@ export default function NoticeDetailPage() {
                   </div>
                   <div className="viewcon">
                     <div
-                      dangerouslySetInnerHTML={{ __html: item.content }}
+                      className="tiptap-content"
+                      dangerouslySetInnerHTML={{ __html: item.content.replace(/<table/gi, '<div class="table-scroll-wrap"><table').replace(/<\/table>/gi, '</table></div>') }}
                     />
                   </div>
                   <div className="viewFile">

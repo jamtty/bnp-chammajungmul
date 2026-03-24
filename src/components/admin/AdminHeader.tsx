@@ -27,9 +27,7 @@ export default function AdminHeader({ pageTitle }: Props) {
       <div className="adm_user" ref={dropdownRef}>
         <button className="adm_user_btn" onClick={() => setDropdownOpen((v) => !v)}>
           {user?.name ?? '관리자'}
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
+          <span className="material-icons" style={{ fontSize: '1.8rem' }}>expand_more</span>
         </button>
         {dropdownOpen && (
           <ul className="adm_dropdown">

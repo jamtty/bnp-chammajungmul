@@ -20,6 +20,12 @@ import NoticeDetailPage from '@/pages/NoticeDetailPage'
 import AdminLoginPage from '@/pages/admin/AdminLoginPage'
 import AdminMainPage from '@/pages/admin/AdminMainPage'
 import AdminMyPage from '@/pages/admin/AdminMyPage'
+import AdminNewsPage from '@/pages/admin/AdminNewsPage'
+import AdminNewsFormPage from '@/pages/admin/AdminNewsFormPage'
+import AdminReportPage from '@/pages/admin/AdminReportPage'
+import AdminReportFormPage from '@/pages/admin/AdminReportFormPage'
+import AdminNoticePage from '@/pages/admin/AdminNoticePage'
+import AdminNoticeFormPage from '@/pages/admin/AdminNoticeFormPage'
 
 export const router = createBrowserRouter(
   [
@@ -50,6 +56,15 @@ export const router = createBrowserRouter(
       children: [
         { index: true, element: <AdminMainPage /> },
         { path: 'mypage', element: <AdminMyPage /> },
+        { path: 'news', element: <AdminNewsPage /> },
+        { path: 'news/write', element: <AdminNewsFormPage /> },
+        { path: 'news/edit/:id', element: <AdminNewsFormPage /> },
+        { path: 'report', element: <AdminReportPage /> },
+        { path: 'report/write', element: <AdminReportFormPage /> },
+        { path: 'report/edit/:id', element: <AdminReportFormPage /> },
+        { path: 'notice', element: <AdminNoticePage /> },
+        { path: 'notice/write', element: <AdminNoticeFormPage /> },
+        { path: 'notice/edit/:id', element: <AdminNoticeFormPage /> },
       ],
     },
     { path: '/admin/login', element: <AdminLoginPage /> },

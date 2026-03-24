@@ -32,6 +32,14 @@ apiClient.interceptors.response.use(
         window.location.href = import.meta.env.BASE_URL + 'admin/login'
       }
     }
+
+    // 서버가 JSON body에 담아 준 message를 그대로 사용
+    // (없으면 axios 기본 메시지 'Request failed with status code NNN' 유지)
+    const serverMessage = error.response?.data?.message
+    if (serverMessage) {
+      error.message = serverMessage
+    }
+
     return Promise.reject(error)
   },
 )
