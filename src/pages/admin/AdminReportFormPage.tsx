@@ -79,7 +79,7 @@ export default function AdminReportFormPage() {
       }
       navigate('/admin/report')
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : '저장에 실패했습니다.')
+      alert(err instanceof Error && err.message ? err.message : '저장에 실패했습니다.')
     } finally {
       setLoading(false)
     }

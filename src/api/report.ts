@@ -57,7 +57,7 @@ export interface ReportDetailResponse {
  */
 export const fetchReportList = async (params: ReportListParams = {}): Promise<ReportListResponse> => {
   const { data } = await apiClient.get('/api/report', { params })
-  if (!data.success) throw new Error(data.message)
+  if (!data.success) throw new Error(data.message || '목록을 불러오지 못했습니다.')
   return data.data
 }
 
@@ -67,7 +67,7 @@ export const fetchReportList = async (params: ReportListParams = {}): Promise<Re
  */
 export const fetchReportDetail = async (id: number, preview = false): Promise<ReportDetailResponse> => {
   const { data } = await apiClient.get(`/api/report/${id}`, { params: preview ? { preview: '1' } : {} })
-  if (!data.success) throw new Error(data.message)
+  if (!data.success) throw new Error(data.message || '데이터를 불러오지 못했습니다.')
   return data.data
 }
 
@@ -80,7 +80,7 @@ export const createReport = async (title: string, content: string, files?: File[
   form.append('content', content)
   files?.forEach(f => form.append('files[]', f))
   const { data } = await apiClient.post('/api/report', form, { headers: { 'Content-Type': undefined } })
-  if (!data.success) throw new Error(data.message)
+  if (!data.success) throw new Error(data.message || '저장에 실패했습니다.')
   return data.data
 }
 
@@ -93,7 +93,7 @@ export const updateReport = async (id: number, title: string, content: string, f
   form.append('content', content)
   files?.forEach(f => form.append('files[]', f))
   const { data } = await apiClient.post(`/api/report/${id}`, form, { headers: { 'Content-Type': undefined } })
-  if (!data.success) throw new Error(data.message)
+  if (!data.success) throw new Error(data.message || '수정에 실패했습니다.')
 }
 
 /**

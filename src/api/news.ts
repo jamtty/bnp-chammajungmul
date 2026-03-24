@@ -57,7 +57,7 @@ export interface NewsDetailResponse {
  */
 export const fetchNewsList = async (params: NewsListParams = {}): Promise<NewsListResponse> => {
   const { data } = await apiClient.get('/api/news', { params })
-  if (!data.success) throw new Error(data.message)
+  if (!data.success) throw new Error(data.message || '목록을 불러오지 못했습니다.')
   return data.data
 }
 
@@ -80,7 +80,7 @@ export const createNews = async (title: string, content: string, files?: File[])
   form.append('content', content)
   files?.forEach(f => form.append('files[]', f))
   const { data } = await apiClient.post('/api/news', form, { headers: { 'Content-Type': undefined } })
-  if (!data.success) throw new Error(data.message)
+  if (!data.success) throw new Error(data.message || '저장에 실패했습니다.')
   return data.data
 }
 
@@ -93,7 +93,7 @@ export const updateNews = async (id: number, title: string, content: string, fil
   form.append('content', content)
   files?.forEach(f => form.append('files[]', f))
   const { data } = await apiClient.post(`/api/news/${id}`, form, { headers: { 'Content-Type': undefined } })
-  if (!data.success) throw new Error(data.message)
+  if (!data.success) throw new Error(data.message || '수정에 실패했습니다.')
 }
 
 /**
