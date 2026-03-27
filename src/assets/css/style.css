@@ -3,6 +3,7 @@
 .device_pc { display:block !important; }
 .device_mo { display:none !important; }
 .scroll-none { overflow:hidden !important; }
+img { max-width:100%; height:auto; }
 
 @media (max-width: 1599px) {
     .device_pc { display:none !important; }
@@ -171,13 +172,13 @@
     .Visual .txt h1 .txtKor { font-size:4rem; color:#fff; font-weight:300; }
 }
 
-.Introduction { background:#F9F9F9; } 
-.Introduction .txt { position:absolute; left:30.6rem; top:50%; transform:translateY(-50%); }
+.Introduction { background:#F9F9F9;  } 
+.Introduction .txt {  position:absolute; left:30.6rem; top:50%; transform:translateY(-50%); }
 .Introduction .txt h1 span { display:block; line-height:9rem; }
 .Introduction .txt h1 .txtEng { font-size:3.6rem; color:#73D5FF; font-weight:300;  }
 .Introduction .txt h1 .txtKor { font-size:6.8rem; color:#333; font-weight:300; }
-.Introduction .con1 { width:76rem; position:absolute; right:17rem; top:12rem; display:flex; gap:4rem; flex-wrap:wrap; }
-.Introduction .con1 a { position:relative;  }
+.Introduction .con1 { max-width:76rem; position:absolute; right:17rem; top:12rem; display:flex; gap:2rem; flex-wrap:wrap; }
+.Introduction .con1 a { width:calc(50% - 2rem); position:relative; position:relative;  }
 .Introduction .con1 a span { position:absolute; top:3.5rem; left:0; width:100%; text-align:center; font-size:3rem; font-weight:600; color:#fff; z-index:9; }
 .Introduction .con1 a:hover img {filter: brightness(50%); }
 
@@ -187,8 +188,8 @@
     .Introduction .txt h1 span { display:block; line-height:100%; }
     .Introduction .txt h1 .txtEng { font-size:2rem; color:#73D5FF; font-weight:300; margin:0 0 2rem; }
     .Introduction .txt h1 .txtKor { font-size:3.2rem; color:#333; font-weight:300; }
-    .Introduction .con1 { width:auto; display:flex; position:relative; right:0; top:0;  gap:2rem; margin:3.2rem 0 2rem; flex-wrap:wrap; }
-    .Introduction .con1 a { flex:auto; width:calc(50% - 2rem); position:relative; }
+    .Introduction .con1 { max-width:100%; display:flex; position:relative; right:0; top:0;  gap:2rem; margin:3.2rem 0 2rem; flex-wrap:wrap; }
+    .Introduction .con1 a { width:calc(50% - 2rem); position:relative; }
     .Introduction .con1 a span { position:absolute; top:1.3rem; left:0; width:100%; text-align:center; font-size:2rem; font-weight:600; color:#fff; }
     .Introduction .con1 a:hover img {filter: brightness(50%); }
 }

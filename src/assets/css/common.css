@@ -88,6 +88,11 @@
 
 /* 초기화 */
 html { font-size:10px; }
+
+@media (max-width: 1600px) {
+    html { font-size:9px; }
+}
+
 html, body { height:100%; }
 body {margin:0;padding:0;font-family:'Pretendard', dotum, sans-serif;  }
 html, h1, h2, h3, h4, h5, h6, form, fieldset, img {margin:0;padding:0;border:0}
