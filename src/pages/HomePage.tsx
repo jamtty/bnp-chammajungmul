@@ -127,7 +127,7 @@ export default function HomePage() {
             <div className="txt">
               <h1>
                 <span className="txtEng">Introduction</span>
-                <span className="txtKor"><strong>참마중물재단</strong> 소개</span>
+                <span className="txtKor"><strong>참마중물재단</strong><br />소개</span>
               </h1>
             </div>
             <div className="con1">
