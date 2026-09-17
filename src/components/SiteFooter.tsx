@@ -17,12 +17,22 @@ export default function SiteFooter() {
         </div>
         <ul className="logo">
           <li>
-            <a href="#" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.nts.go.kr"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="국세청 홈페이지 바로가기"
+            >
               <img src={icoFooterLogo1} alt="국세청 로고" />
             </a>
           </li>
           <li>
-            <a href="#" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.seoul.go.kr"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="서울특별시 홈페이지 바로가기"
+            >
               <img src={icoFooterLogo2} alt="서울시 로고" />
             </a>
           </li>
