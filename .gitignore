@@ -12,11 +12,12 @@ dist
 dist-ssr
 *.local
 
-# 환경변수 (민감정보 - Git에 올리지 않음)
+# 환경변수
+# .env / .env.local / *.local / .env.staging = 개인·민감 설정 → 커밋하지 않음
+# .env.production / .env.ghpages = 배포 대상별 설정 → 커밋함 (비밀값 없음)
 .env
 .env.local
 .env.*.local
-.env.production
 .env.staging
 
 # Editor directories and files
